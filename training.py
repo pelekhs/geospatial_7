@@ -96,16 +96,20 @@ def trainNN(model, model_folder_name, max_epochs, trainloader, valloader,
                 pbar.update()
         print("\n\n")      
         if not classification and not supervision:
-            dioni_composite = labels[0].detach().cpu().numpy()[[23, 11, 7], :, :]
-            plt.title("True")
-            plt.imsave(os.path.join(save_to, fname, "figures", str(epoch)+ "_True.png"),
-                       dioni_composite.transpose(1,2,0)) 
-    
-            dioni_composite = logits[0].detach().cpu().numpy()[[23, 11, 7], :, :]
-            plt.title("Rec")
-            plt.imsave(os.path.join(save_to, fname, "figures", str(epoch)+ "_Rec.png"),
-                       dioni_composite.transpose(1,2,0))    
-        
+            try:
+                dioni_composite = labels[0].detach().cpu().numpy()[[23, 11, 7], :, :]
+                plt.title("True")
+                plt.imsave(os.path.join(save_to, fname, "figures", str(epoch)+ "_True.png"),
+                           dioni_composite.transpose(1,2,0)) 
+            except ValueError:
+                pass
+            try:
+                dioni_composite = logits[0].detach().cpu().numpy()[[23, 11, 7], :, :]
+                plt.title("Rec")
+                plt.imsave(os.path.join(save_to, fname, "figures", str(epoch)+ "_Rec.png"),
+                           dioni_composite.transpose(1,2,0)) 
+            except ValueError:
+                pass
         end = time.time()
         # store each epochs performances for latter processing and plots
         epoch_loss_train.append(np.mean(batch_loss))
