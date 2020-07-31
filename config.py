@@ -7,12 +7,12 @@ import os
 train_all = True
 
 # lr and regularization
-lr = 1e-3
+lr = 1e-5
 regularizer = 0
 dropout = 0.0
 
 # Number of processors
-workers = 8
+workers = 0
 
 # set patch size
 patch_size = 11
@@ -21,7 +21,7 @@ patch_size = 11
 batch = 64
 
 # supervision -> True or False
-supervision = False
+supervision = True
 
 # Transformations
 transforms = True
@@ -30,10 +30,10 @@ transforms = True
 selected_model = "AE_new"
 
 # Path to state dict of pretrained autoencoder else None
-pretrained_encoder = None#"../results/AE_new_unsupervised/11_True/state_dict" 
+pretrained_encoder = "../results/AE_new_unsupervised/11_Final/state_dict" 
 
 # Only used if the InferenceNN file is running else ignored
-clf_dict = "../results/Classifier_supervised/11_True_NoNoise_TwoLayer_NoDropout/state_dict"
+clf_dict = "../results/Classifier_supervised/11_Final/state_dict"
 
 # Location to save models
 save_to = str(os.path.join(os.pardir, "results"))
@@ -41,7 +41,7 @@ save_to = str(os.path.join(os.pardir, "results"))
 # Patience to stop training after best model
 patience = 20
 
-max_epochs = 60
+max_epochs = 35
 
 # =============================================================================
 # End of API

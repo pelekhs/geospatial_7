@@ -18,7 +18,7 @@ def logit_accuracy(logits, y_true):
     return acc, y_pred
 
 
-def trainNN(model, model_folder_name, max_epochs, trainloader, valloader,
+def trainNN(model, model_folder_name, max_epochs, trainloader, valloader, batch,
             testloader, lr, optimizer, criterion, patch_size, transform=False,
             patience=30, device="cpu", y_limit=0, save_to=None, regularizer=0,
             dropout=0, classification=True, supervision=True, pre_model=False):
@@ -49,7 +49,6 @@ def trainNN(model, model_folder_name, max_epochs, trainloader, valloader,
         # Training
         epoch +=1
         batch_loss = []
-        y_pred = []
         batch_acc = []
         model.train()
         # enumerate fetches a batch of the data for training!
@@ -219,7 +218,7 @@ def trainNN(model, model_folder_name, max_epochs, trainloader, valloader,
             "Classifier dropout: "+ str(dropout) + "\n\n" +
             "Patch size: "+ str(patch_size) + "\n\n" +
             "Transforms applied:\n\n" + str(transform) + "\n\n" +
-            "Batch size:\n\n" + str(inputs.size(0)) + "\n\n" +
+            "Batch size:\n\n" + str(batch) + "\n\n" +
             "Premodel:\n\n" + str(pre_model) + "\n\n" +
             "Model:\n\n" + str(model) + "\n\n")
     if supervision:

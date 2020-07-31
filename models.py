@@ -293,7 +293,7 @@ class Classifier(nn.Module):
     self.num_classes = num_classes
     self.classifier = nn.Sequential(
         nn.Linear(176, 1024),
-         nn.Dropout(p=self.dropout),
+    #    nn.Dropout(p=self.dropout),
          nn.Linear(1024, 1024),
     #     nn.Linear(256, 128),
     #  nn.Linear(256, 128),

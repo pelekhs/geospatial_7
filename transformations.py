@@ -30,7 +30,7 @@ def vertical_flip(image_array: ndarray):
 # dictionary of the transformations we defined earlier
 available_transformations = {
     'rotate': random_rotation,
-    'noise': random_noise,
+#    'noise': random_noise,
     'horizontal_flip': horizontal_flip,
     'vertical_flip': vertical_flip,
 #    'No': lambda x : x

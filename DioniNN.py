@@ -139,10 +139,10 @@ optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
 # Training
 ylimit = 1.5 if supervision else 0.003
-trainNN(model=model, patience=patience, model_folder_name=selected_model,
-        patch_size=patch_size, max_epochs=max_epochs, trainloader=trainloader, 
-        valloader=valloader, testloader=testloader, device=device, 
-        optimizer=optimizer, criterion=criterion, lr=lr, 
+trainNN(model=model, patience=patience, model_folder_name=selected_model, 
+        batch=batch, patch_size=patch_size, max_epochs=max_epochs, 
+        trainloader=trainloader, valloader=valloader, testloader=testloader, 
+        device=device, optimizer=optimizer, criterion=criterion, lr=lr, 
         transform=available_transformations, save_to=save_to, y_limit=ylimit,
         classification=supervision, supervision=supervision,
         pre_model=pre_model, dropout=dropout)
