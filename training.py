@@ -2,16 +2,12 @@
 
 import numpy as np
 import torch
-from sklearn import metrics
 import os
 import matplotlib.pyplot as plt
 import datetime
 from sklearn.metrics import classification_report
-import sys
-import random
 import time
 import tqdm
-from torchsummary import summary
 
 
 def logit_accuracy(logits, y_true):

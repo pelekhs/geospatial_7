@@ -137,7 +137,8 @@ class AE(nn.Module):
             nn.Conv2d(64 // div, 64 // div, kernel_size=3, padding=1),
             nn.BatchNorm2d(num_features=64 // div),
             nn.ReLU(),
-            # downscaling layer to original size for the skip connection
+            # this conv layer applies downscaling to the original size 
+            # so as to fit the skip connection shape
             nn.Conv2d(64 // div, image_channels, kernel_size=1, padding=0)
             )
 
@@ -291,17 +292,23 @@ class Classifier(nn.Module):
     self.flatten = Flatten()
     self.num_classes = num_classes
     self.classifier = nn.Sequential(
-        nn.Linear(176, 2048),
-        nn.Dropout(p=self.dropout),
-    #    nn.Linear(512, 512),
-    #    nn.Linear(512, 256),
+        nn.Linear(176, 1024),
+         nn.Dropout(p=self.dropout),
+         nn.Linear(1024, 1024),
+    #     nn.Linear(256, 128),
     #  nn.Linear(256, 128),
-        nn.Linear(2048, num_classes))
+        nn.Linear(1024, num_classes))
       
   def forward(self, x):
     x = self.flatten(x)
     x = self.classifier(x)
     return x
+
+
+
+
+
+
 
 class AE3D(nn.Module):
     def __init__(self, image_channels=176, num_classes=14, supervision=True):
@@ -482,4 +489,4 @@ class AE3D(nn.Module):
             return self.classify(self.flatten(h))
         else:
             return self.decode(h)
-    
+
