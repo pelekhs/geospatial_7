@@ -26,15 +26,13 @@ else:
 
 from dataset import *
 
-"""Training tools"""
+"""Models:
+    Choose files of pretrained encoder and classifier and then load
+    state_dicts to begin inference"""
 
-from training import trainNN
+pretrained_encoder = "../results/AE_new_unsupervised/11_Final/state_dict"
 
-"""Settings and hyperparameters"""
-
-from config import *
-
-"""Models"""
+clf_dict = "../results/Classifier_supervised/11_Final/state_dict"
 
 from models import *
 
@@ -43,7 +41,7 @@ pre_model.load_state_dict(torch.load(pretrained_encoder))
 pre_model.to(device)
 pre_model.eval()
 
-model = models["Classifier_supervised"].to(device)
+model = Classifier().to(device)
 model.load_state_dict(torch.load(clf_dict))
 model.to(device)
 model.eval() 
@@ -51,11 +49,11 @@ model.eval()
 """ Patch Extraction """
 
 # Keep the coords so as to know which pixel I infer every time
-erato, erato_coords = patches_unsupervised(img=erato, size=patch_size,
+erato, erato_coords = patches_unsupervised(img=erato, size=11,
                                            subsample=False)
-nefeli, nefeli_coords = patches_unsupervised(img=nefeli, size=patch_size,
+nefeli, nefeli_coords = patches_unsupervised(img=nefeli, size=11,
                                              subsample=False)
-kirki, kirki_coords = patches_unsupervised(img=kirki, size=patch_size,
+kirki, kirki_coords = patches_unsupervised(img=kirki, size=11,
                                            subsample=False)
 
 """Dataloaders"""
@@ -66,11 +64,9 @@ test1 = HyRank(X=erato, y=erato_coords, transform=False, supervision=True)
 test2 = HyRank(X=nefeli, y=nefeli_coords, transform=False, supervision=True)
 test3 = HyRank(X=kirki, y=kirki_coords, transform=False, supervision=True)
 
-
-n = workers
-testloader1 = DataLoader(test1, batch_size=512, num_workers=n, shuffle=False)
-testloader2 = DataLoader(test2, batch_size=512, num_workers=n, shuffle=False)
-testloader3 = DataLoader(test3, batch_size=512, num_workers=n, shuffle=False)
+testloader1 = DataLoader(test1, batch_size=512, num_workers=0, shuffle=False)
+testloader2 = DataLoader(test2, batch_size=512, num_workers=0, shuffle=False)
+testloader3 = DataLoader(test3, batch_size=512, num_workers=0, shuffle=False)
 
 def get_predictions(logits):
     """ This function computes the vector of predictions given the 
@@ -112,7 +108,7 @@ with torch.no_grad():
             # plot
             plt.imshow(erato_inference)
             plt.title("Erato infered classes")
-            plt.show()
+            plt.savefig("Erato_INF_NN.png")
             
         elif testloader == testloader2:    
             width = nefeli_dimensions[0]
@@ -123,7 +119,7 @@ with torch.no_grad():
                 .save("Nefeli_INF_NN.tif", format="tiff")
             plt.imshow(nefeli_inference)
             plt.title("Nefeli infered classes")
-            plt.show()
+            plt.savefig("Nefeli_INF_NN.png")
         else:    
             width = kirki_dimensions[0]
             height = kirki_dimensions[1]
@@ -133,4 +129,4 @@ with torch.no_grad():
                 .save("Kirki_INF_NN.tif", format="tiff")
             plt.imshow(kirki_inference)
             plt.title("Kirki infered classes")
-            plt.show()
+            plt.savefig("Kirki_INF_NN.png")

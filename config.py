@@ -4,10 +4,10 @@
 import os
 
 # set true so as to train classifiers on all of Dioni and Loukia (final stage)
-train_all = True
+train_all = False
 
 # lr and regularization
-lr = 1e-5
+lr = 1e-4
 regularizer = 0
 dropout = 0.0
 
@@ -24,16 +24,13 @@ batch = 64
 supervision = True
 
 # Transformations
-transforms = True
+transforms = False
 
 # select model here
 selected_model = "AE_new"
 
 # Path to state dict of pretrained autoencoder else None
-pretrained_encoder = "../results/AE_new_unsupervised/11_Final/state_dict" 
-
-# Only used if the InferenceNN file is running else ignored
-clf_dict = "../results/Classifier_supervised/11_Final/state_dict"
+pretrained_encoder = "../results/AE_new_unsupervised/11_False_cloud/state_dict" 
 
 # Location to save models
 save_to = str(os.path.join(os.pardir, "results"))
@@ -41,7 +38,7 @@ save_to = str(os.path.join(os.pardir, "results"))
 # Patience to stop training after best model
 patience = 20
 
-max_epochs = 35
+max_epochs = 50
 
 # =============================================================================
 # End of API
